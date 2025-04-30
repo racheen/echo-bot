@@ -6,7 +6,7 @@ from langchain.vectorstores import FAISS
 from langchain.schema import Document
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from dotenv import load_dotenv
-from constants import EMBEDDING_MODEL, DOCUMENTS_PATH, VECTOR_STORE_PATH
+from scripts.constants import EMBEDDING_MODEL, DOCUMENTS_PATH, VECTOR_STORE_PATH
 
 load_dotenv()
 

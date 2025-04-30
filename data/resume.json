@@ -1,0 +1,143 @@
+{
+  "academics": [
+    {
+      "school": "Algonquin College",
+      "degree": "AI Software Development",
+      "year": ["September 2024", "August 2025"],
+      "website": "https://www.algonquincollege.com/sat/program/artificial-intelligence-software-development/",
+      "gpa": "3.8"
+    },
+    {
+      "school": "University of Santo Tomas",
+      "degree": "Bachelor of Computer Science Specialization in Data Science",
+      "year": ["June 2014", "July 2018"],
+      "website": "https://www.ust.edu.ph/academics/programs/bachelor-of-science-in-computer-science/",
+      "gpa": "3.0"
+    }
+  ],
+  "experiences": [
+    {
+      "company": "Skourse Academy",
+      "as": "Head Instructor",
+      "year": ["November 2021", "March 2022"],
+      "website": "https://www.skourse.com/",
+      "description": [
+        "Designed and implemented a comprehensive full-stack development curriculum with a focus on the MERN stack (MongoDB, Express.js, React.js, Node.js).",
+        "Led a cohort of 9 students through intensive, hands-on training, guiding them through real-world project development cycles.",
+        "Covered essential topics such as front-end design with React, server-side logic in Node.js, and database integration with MongoDB.",
+        "Mentored students in project-based learning, resulting in a 60% employment rate among participants within 6 months of graduation.",
+        "Introduced Git workflows and Agile methodologies for version control and collaborative development."
+      ]
+    },
+    {
+      "company": "Symph, Inc.",
+      "as": "Full-Stack Developer",
+      "year": ["May 2020", "March 2022"],
+      "website": "https://www.symph.co/",
+      "description": [
+        "Improved and maintained a payout system for a client using React JS, Typescript, Node.js, and MySQL, optimizing performance and ensuring high availability during peak transactions.",
+        "Revamped the frontend designs and optimized backend systems for the FOI.gov.ph platform using Python2, Jinja, Google App Engine, and Datastore, leading to a 30% increase in user engagement and department efficiency by streamlining data access and submission processes for government agencies.",
+        "Developed a web application dashboard for real-time data tracking and analytics using React JS, Typescript, and Firebase, improving client reporting capabilities.",
+        "Automated the text parsing process for a donation platform using Ruby on Rails, reducing manual entry errors by 80%.",
+        "Integrated the Face++ API for image recognition and trained a machine learning model using Python-Flask and Google Cloud AutoML Vision as an added feature for an application focused on security verification through ID and face checks."
+      ]
+    },
+    {
+      "company": "Redtomato Design Studio",
+      "as": "Software Engineer",
+      "year": ["June 2018", "May 2020"],
+      "description": [
+        "Co-founded the company and led a team of 5-8 engineers to design and build custom web and mobile applications for over 10 clients across various industries.",
+        "Directed the development of web applications using Python-Flask for back-end logic and React JS for front-end interfaces, leading to a 40% reduction in project delivery time.",
+        "Managed the company’s internship program, mentoring 14 interns in software engineering.",
+        "Introduced Agile methodologies and Scrum practices, improving project management and communication between teams and clients.",
+        "Successfully delivered solutions for client businesses that helped them scale their operations and improve their digital presence."
+      ]
+    },
+    {
+      "company": "UnionBank of the Philippines",
+      "as": "Software Engineer Intern",
+      "year": ["June 2017", "August 2017"],
+      "website": "https://unionbankph.com/",
+      "description": [
+        "Developed and implemented improvements for the Customized Statement of Account System using .Net.",
+        "Collaborated with senior developers to propose and prototype innovative project solutions, earning recognition among the top 10 interns for contributing valuable ideas to ongoing projects."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Olympus_QA - Greek Mythology Question Answering System",
+      "technologies": [
+        "Python",
+        "Streamlit",
+        "NLP",
+        "Haystack",
+        "GitHub",
+        "Machine Learning"
+      ],
+      "description": [
+        "Developed a question-answering system focused on Greek mythology, utilizing advanced NLP techniques, including fine-tuning pre-trained models for enhanced domain-specific accuracy. Leveraged Haystack to efficiently retrieve relevant information, optimizing query responses and boosting the system’s performance by training on specialized datasets related to Greek mythology. The fine-tuning process involved adjusting model parameters to improve contextual understanding and response precision for mythological queries."
+      ],
+      "demo": "https://olympusapp-d4mlvcenfw2x3ictnyw4hf.streamlit.app/",
+      "repo": "https://github.com/racheen/olympus_QA",
+      "year": ["2024"]
+    },
+    {
+      "name": "AI-Powered Recruitment Assistant",
+      "technologies": ["FastAPI", "Azure", "LLaMA", "Gemini", "NLP", "LLMs"],
+      "description": [
+        "Developed and deployed a recruitment assistant that uses AI to enhance candidate evaluation, integrating NLP techniques and modular microservice design."
+      ],
+      "year": ["2024"]
+    },
+
+    {
+      "name": "EFOI",
+      "technologies": [
+        "Python2",
+        "GCP",
+        "AppEngine",
+        "Datastore",
+        "JavaScript"
+      ],
+      "description": [
+        "Implemented features’ improvements and adjustments on the backend and frontend of the Electronic Freedom of Information Platform, improving data access for government agencies."
+      ],
+      "prod": "https://www.foi.gov.ph/",
+      "year": ["2020"]
+    },
+    {
+      "name": "GivingSide",
+      "technologies": ["Postgres", "Ruby on Rails", "Heroku"],
+      "description": [
+        "Built a pipeline for automating text parsing with regular expressions, improving the efficiency of the donation platform."
+      ],
+      "prod": "https://www.givingside.com/",
+      "year": ["2020"]
+    },
+    {
+      "name": "Sentimental Analysis",
+      "technologies": ["AWS Sagemaker", "Python", "Pytorch"],
+      "description": [
+        "Developed a recurrent neural network to determine the sentiment of movie reviews using the IMDB dataset, applying machine learning methods to text data."
+      ],
+      "repo": "https://github.com/racheen/sentimental-analysis",
+      "year": ["2020"]
+    },
+    {
+      "name": "Udagram",
+      "technologies": ["Typescript", "AWS", "Node JS", "React JS", "DynamoDB"],
+      "description": [
+        "Refactored a cloud application from monolith to microservices and serverless architectures, improving user interactions and scalability."
+      ],
+      "repo": "https://github.com/racheen/udagram-serverless",
+      "year": ["2020"]
+    }
+  ],
+  "links": {
+    "resume": "https://docs.google.com/document/d/1-BoDh5MLDDqqb_qIKv3gd7IMSogKHstWb66jpdNHRgk/edit?usp=sharing",
+    "linkedin": "https://www.linkedin.com/in/rachemoniq/",
+    "github": "https://github.com/racheen"
+  }
+}

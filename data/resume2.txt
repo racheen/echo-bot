@@ -1,0 +1,102 @@
+﻿RACHEL MONIQUE TUMULAK
+	Contact: +1 613 668 0124 | Email: rmktumulak@gmail.com |
+  https://rachem.netlify.app |   GitHub: rachemoniq |   LinkedIn: rachemoniq |
+	Education
+	Algonquin College, Ottawa, ON, Canada
+	September 2024 – Present
+	AI Software Development
+	GPA: 3.64
+	University of Santo Tomas, Manila, NCR, Philippines
+	August 2014 – June 2018
+	Bachelor of Science in Computer Science, Specialization in Data Science
+
+
+	GPA: 3.0
+	Program Related Skills
+	Programming Languages:Python (FastAPI, Flask, Django), JavaScript/TypeScript (React, Express), HTML, CSS
+	ML/AI Libraries: PyTorch, Scikit-learn, OpenCV, OpenAI, Gemini, Azure OpenAI, RapidMiner, Weka
+	Web Services: REST, SOAP
+	Database: MongoDB, Firestore, Firebase Realtime DB, Google Datastore, DynamoDB, PostgreSQL, Redis, PL/SQL (Oracle)
+	Operating Systems: MacOS, Windows
+	Software Tools: Git, VSCode, Postman, Weka, RapidMiner, Pycharm, Anaconda, Jupyter, Docker
+	Platforms: Azure, Google Cloud Platform (App Engine), Amazon Web Services (S3, SageMaker), Netlify, Heroku, Node.js, Auth0, MongoDB Atlas/Compass
+	Developer Tools: Git, VS Code, PyCharm, Postman, Jupyter, Docker, Anaconda, RapidMiner, Weka, Notion
+	SDLC & Workflow: Scrum/Agile
+	Operating Systems: macOS, Windows
+	Professional Experience
+	Head Instructor
+	November 2021 – March 2022
+	Skourse Academy - Cebu, Philippines
+	* Designed and implemented a comprehensive full-stack development curriculum with a focus on the MERN stack (MongoDB, Express.js, React.js, Node.js).
+* Led a cohort of 9 students through intensive, hands-on training, guiding them through real-world project development cycles.
+* Covered essential topics such as front-end design with React, server-side logic in Node.js, and database integration with MongoDB.
+* Mentored students in project-based learning, resulting in a 60% employment rate among participants within 6 months of graduation.
+* Introduced Git workflows and Agile methodologies for version control and collaborative development.
+
+
+	Full-Stack Developer
+	May 2020 – March 2022
+	Symph - Cebu, Philippines
+	* Improved and maintained a payout system for a client using React JS, Typescript, Node.js, and MySQL, optimizing performance and ensuring high availability during peak transactions.
+* Revamped the frontend designs and optimized backend systems for the FOI.gov.ph platform using Python2, Jinja, Google App Engine, and Datastore, leading to a 30% increasing user engagement and department efficiency by streamlining data access and submission processes for government agencies.
+* Developed a web application dashboard for real-time data tracking and analytics using React JS, Typescript, and Firebase, improving client reporting capabilities.
+* Automated the text parsing process for a donation platform using Ruby on Rails, reducing manual entry errors by 80%.
+* Integrated the Face++ API for image recognition and trained a machine learning model using Python-Flask and Google Cloud AutoML Vision as an added feature for an application focused on security verification through ID and face checks.
+
+
+
+
+
+
+
+
+	Software Engineer
+	June 2018 – May 2020
+	Redtomato Design Studio - Manila, Philippines
+	* Co-founded the company and led a team of 5-8 engineers to design and build custom web and mobile applications for over 10 clients across various industries.
+* Directed the development of web applications using Python-Flask for back-end logic and React JS for front-end interfaces, leading to a 40% reduction in project delivery time.
+* Managed the company’s internship program, mentoring 14 interns in software engineering.
+* Introduced Agile methodologies and Scrum practices, improving project management and communication between teams and clients.
+* Successfully delivered solutions for client businesses that helped them scale their operations and improve their digital presence.
+
+
+	Software Engineer Intern
+	June 2017 – August 2017
+	UnionBank of the Philippines - Mandaluyong, Philippines
+	* Developed and implemented improvements for the Customized Statement of Account System using .Net
+* Collaborated with senior developers to propose and prototype innovative project solutions, earning recognition among the top 10 interns for contributing valuable ideas to ongoing projects.
+
+
+	Projects
+	Olympus_QA - Greek Mythology Question Answering System
+		Academic Project - Python, Streamlit, NLP (Natural Language Processing), Haystack, GitHub, Machine Learning | Apr 2025
+	* Developed a question-answering system focused on greek mythology, leveraging NLP techniques to provide accurate answers to user queries.
+* Built the web application using Streamlit, allowing users to interact with the system in real-time.
+* Integrated Haystack to implement the search and retrieval mechanisms for processing and generating accurate responses.
+* Utilized Python to build the backend, implementing key NLP methods such as tokenization, named entity recognition (NER), and text classification.
+	AI-Powered Recruitment Assistant
+		Academic Project – Algonquin College | FastAPI, Azure, LLaMA, Gemini, NLP, LLMs | Apr 2025
+	* Developed and deployed an AI-powered recruitment assistant using FastAPI, designed to enhance candidate evaluation and streamline application processing.
+* Built a custom rejection service that delivers tailored feedback based on resume and job description alignment.
+* Integrated and translated services such as resume scoring and cover letter generation using LLMs (LLaMA, Gemini, and Azure OpenAI) to ensure flexibility and efficiency across different model backends.
+* Applied Natural Language Processing (NLP) techniques to generate and compare semantic embeddings for matching resumes to job postings.
+* Emphasized modularity and microservice design to enable easy scaling and deployment of individual components.
+	Certifications
+________________
+	Udacity Machine Learning Engineer Nanodegree | May 2020
+		Google Cloud Learning Workshop | April – May 2020
+		Udacity Cloud Developer Nanodegree | March 2020
+
+
+		Reference
+________________
+	Albert Padin
+CTO at Symph
+Email: albert@symph.co
+	Jaiun Roa
+Project Manager at Symph
+Email: jaiun@symph.co
+Phone: +63 927 207 7951
+	
+
+RACHEL MONIQUE TUMULAK
