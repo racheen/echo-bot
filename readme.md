@@ -37,17 +37,29 @@ Coming soon at [rachem.netlify.app](https://rachem.netlify.app)
 
 ## 📁 Project Structure
 ```bash
-    echo-bot/ 
-        ├── main.py # FastAPI app w/ LangGraph and Gemini 
-        ├── fetch_github_repo.py # Fetching data from github repository
-        ├── generate_vectorstore.py # Generating vectorstore for retrieval documents
-        ├── vector_store/ # FAISS vectorstore (RAG base) 
-        │   ├── index.faiss
-        │   ├── index.pkl
-        ├── documents/ # JSON + TXT files (resume, project data) 
-        │   └── ... 
-        ├── .env 
-        └── README.md
+.
+├── README.md
+├── app
+│   ├── api
+│   │   └── routes.py
+│   ├── core
+│   │   ├── config.py
+│   │   └── llm_graph.py
+│   └── schema
+│       └── schema.py
+├── data
+│   ├── olympus_QA.txt
+│   ├── resume.json
+│   └── resume2.txt
+├── main.py
+├── requirements.txt
+├── scripts
+│   ├── constants.py
+│   ├── fetch_github_repo.py
+│   └── generate_vectorstore.py
+└── vector_store
+    ├── index.faiss
+    └── index.pkl
 ```
 
 
