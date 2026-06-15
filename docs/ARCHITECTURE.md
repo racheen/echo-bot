@@ -1,49 +1,73 @@
 # Echo Architecture
 
-## Dependency Direction
+## Product Boundaries
 
-Echo Bot is the desktop composition root. Product modules depend on shared
-domain contracts, not on UI widgets or concrete infrastructure.
+Echo is organized as a Python monorepo that builds on the existing repository.
+The legacy Streamlit application remains operational while shared behavior is
+extracted into product packages.
 
 ```text
-Echo Bot UI
-  -> application services
-    -> Echo Profile / Echo Resume / Echo Chat domain contracts
-      -> repository and integration interfaces
-        -> SQLite / LanceDB / Ollama / LaTeX implementations
+Echo desktop application
+  -> Echo Resume and Echo Chat services
+    -> Echo Core domain and interfaces
+      -> SQLite, LanceDB, Ollama, and local LaTeX adapters
+
+Echo Web Bot
+  -> exported public-profile snapshot only
 ```
 
-## Module Ownership
+## Package Ownership
 
-### Echo Profile
+### Echo Core
 
-- Owns structured professional facts and verification status.
-- Stores authoritative data in SQLite.
-- Publishes verified fact IDs for retrieval and citation.
-- Rebuilds its LanceDB projection from SQLite.
+`packages/echo_core` owns:
+
+- Professional facts, verification state, and visibility policy
+- SQLite profile repository
+- Text normalization, chunking, retrieval contracts, and prompts
+- Loopback-only Ollama adapter
+- Rebuildable LanceDB adapter
+- Retrieval and citation evaluation helpers
+
+SQLite is authoritative. LanceDB stores only derived embeddings referencing
+stable SQLite fact IDs.
 
 ### Echo Resume
 
-- Owns job postings, structured job analysis, evidence selection, resume
-  drafts, claim validation, LaTeX rendering, and immutable output versions.
-- May only generate personal claims from approved Echo Profile fact IDs.
+`packages/echo_resume` owns:
 
-### Echo Chat
+- Job-posting analysis
+- Evidence selection
+- Structured resume drafts and cited claims
+- Deterministic claim validation
+- Controlled LaTeX rendering
+- Local PDF compilation
+- Immutable application versions
+- Resume-specific desktop UI
 
-- Owns private career and resume conversations.
-- Grounds personal answers in approved Echo Profile facts.
-- Keeps general career guidance clearly separate from personal claims.
+Every generated personal claim must cite one or more verified facts approved for
+resume use.
 
-### Echo Bot
+### Echo Web Bot
 
-- Owns navigation, configuration, background workers, dependency readiness,
-  and user-facing error presentation.
-- Does not own professional facts or generated resume content.
+`packages/echo_web_bot` owns:
 
-## Infrastructure Rules
+- Explicit public-profile export
+- Public chat widget integration boundary
+- Public question and response guardrails
 
-- SQLite is authoritative; LanceDB is disposable derived data.
-- Ollama connections must use explicitly configured loopback addresses.
-- Models are inspected but never pulled automatically.
-- LaTeX compilation runs locally in an isolated application output directory.
-- Private content is never included in application logs.
+The web bot must never open the private SQLite database or private LanceDB
+index. It consumes only an exported snapshot of verified `public_allowed`
+facts.
+
+### Application Shell
+
+`app` owns desktop startup, configuration, dependency readiness, privacy-safe
+logging, background-worker composition, and user-facing errors.
+
+## Legacy Compatibility
+
+`src`, `pages`, and `Welcome.py` remain the legacy prototype. Reusable concepts
+are extracted into packages before legacy dependencies are removed. OpenSearch,
+SentenceTransformers, Streamlit, and automatic Ollama model pulling are not part
+of the target architecture.

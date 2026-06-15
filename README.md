@@ -1,63 +1,99 @@
-# Echo Bot
+# Echo
 
-Echo Bot is a private, cross-platform, local-first career assistant. It is the
-desktop shell that brings together:
+Echo is a private, local-first AI career assistant built on top of the original
+Echo Bot and local RAG prototypes.
 
-- **Echo Profile**: your private professional knowledge base and authoritative
-  source of verified career facts.
-- **Echo Resume**: an evidence-constrained tailored LaTeX resume generator.
-- **Echo Chat**: an AI version of you for private resume and career questions.
+Echo contains three product surfaces:
 
-The application uses Python 3.11, PySide6, SQLite, LanceDB, locally installed
-Ollama models, and local LaTeX tooling.
+- Echo Core provides the private professional profile, RAG, prompts, local
+  integrations, repositories, and evaluation contracts.
+- Echo Resume creates evidence-constrained tailored LaTeX resumes from local job
+  postings.
+- Echo Web Bot exposes an explicitly approved public-profile snapshot and can
+  never access the private profile database.
 
-The legacy Streamlit/OpenSearch document-chat application remains temporarily
-while the desktop replacement is implemented. Do not use it as the architecture
-for new features.
+The legacy Streamlit and OpenSearch application remains available while its
+useful behavior is migrated into Echo Core. New features should use the package
+architecture rather than extending `src/` or `pages/`.
 
-See:
+## Privacy Contract
 
-- [`docs/PROJECT.md`](docs/PROJECT.md) for the product and privacy contract.
-- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for module boundaries.
-- [`docs/MIGRATION.md`](docs/MIGRATION.md) for migration status.
-- [`AGENTS.md`](AGENTS.md) for repository implementation guidance.
+- All private inference uses locally installed Ollama models.
+- Ollama connections are restricted to explicitly configured loopback URLs.
+- Models are never downloaded or pulled automatically.
+- SQLite is the authoritative private data store.
+- LanceDB is a rebuildable local vector index.
+- Private profile content, prompts, job postings, and generated responses are
+  never written to application logs.
+- Private runtime data is stored outside the repository.
+- Public web exports contain only verified facts explicitly marked
+  `public_allowed`.
 
-After installing the declared dependencies locally:
+## Repository Structure
+
+```text
+app/
+  Desktop composition root, configuration, readiness checks, and logging.
+
+packages/
+  echo_core/
+    Shared profile domain, SQLite repository, RAG, prompts, Ollama adapter,
+    LanceDB adapter, and evaluation helpers.
+  echo_resume/
+    Job analysis, claim validation, LaTeX rendering, PDF compilation,
+    immutable versions, and desktop UI boundary.
+  echo_web_bot/
+    Public-profile export, public chat boundary, and guardrails.
+
+src/ and pages/
+  Legacy Streamlit/OpenSearch prototype retained during migration.
+
+tests/
+  Focused privacy, retrieval, validation, rendering, and versioning tests.
+```
+
+## Setup
+
+Echo requires Python 3.11.
 
 ```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 python -m scripts.check_offline_readiness
+```
+
+Install the configured Ollama generation and embedding models manually. Echo
+will report missing models but will not download them.
+
+Run the desktop shell:
+
+```bash
 python -m app.main
 ```
 
-The readiness command only inspects local dependencies, local executables, and
-the explicitly configured loopback Ollama service. It never downloads models.
+Run the test suite:
 
-## Legacy Application
+```bash
+python -m unittest discover -s tests -v
+```
 
-# Build Your Local RAG System with LLMs
+## Configuration
 
-Welcome to the **Local LLM-based Retrieval-Augmented Generation (RAG) System**! This repository provides the full code to build a private, offline RAG system for managing and querying personal documents locally using a combination of OpenSearch, Sentence Transformers, and Large Language Models (LLMs). Perfect for anyone seeking a privacy-friendly solution to manage documents without relying on cloud services.
+Echo recognizes these environment variables:
 
-![Demo Image](images/chatbot.png)
+```text
+ECHO_OLLAMA_URL=http://127.0.0.1:11434
+ECHO_GENERATION_MODEL=llama3.2:3b
+ECHO_EMBEDDING_MODEL=nomic-embed-text
+ECHO_LATEX_COMMAND=pdflatex
+```
 
-### 🌟 Key Features:
-- **Privacy-Friendly Document Search:** Search through personal documents without uploading them to the cloud.
-- **Hybrid Search with OpenSearch:** Uses both traditional text matching and semantic search.
-- **Easy Integration with LLMs**: Leverage local LLMs for personalized, context-aware responses.
+The older `RESUME_TAILOR_*` names remain temporary fallbacks during migration.
 
-### 🚀 Get Started
-1. Clone the repo: `git clone https://github.com/JAMwithAI/build_your_local_RAG_system.git`
-2. Install dependencies: `pip install -r requirements.txt`
-3. Configure `constants.py` for embedding models and OpenSearch settings.
-4. Run the Streamlit app: `streamlit run welcome.py`
+## Documentation
 
-### 📘 Blog Guide
-For a detailed walkthrough of the setup and code, check out our blog:
-
-[**Build a Local LLM-based RAG System for Your Personal Documents - Part 1**](https://jamwithai.substack.com/p/build-a-local-llm-based-rag-system)
-
-[**Build a Local LLM-based RAG System for Your Personal Documents - Part 2: The Guide**](https://jamwithai.substack.com/p/build-a-local-llm-based-rag-system-628)
-
----
-
-Enjoy your journey in building a private, AI-driven document management system! If you find this project useful, consider sharing it with others in the community!
+- `docs/PROJECT.md` describes the product and privacy contract.
+- `docs/ARCHITECTURE.md` defines module ownership and dependency direction.
+- `docs/MIGRATION.md` tracks migration status and remaining work.
+- `AGENTS.md` contains repository guidance for coding agents.

@@ -1,51 +1,41 @@
-# Migration Plan
+# Echo Migration
 
-## Product Boundaries
+## Implemented
 
-- Echo Bot is the private local desktop shell and orchestration layer.
-- Echo Profile owns verified professional facts and is the source of truth.
-- Echo Resume owns job analysis, evidence review, constrained generation,
-  validation, LaTeX rendering, and application versions.
-- Echo Chat owns private career and resume conversations grounded in approved
-  Echo Profile facts.
+- Echo product naming and privacy contract
+- Python 3.11 desktop composition root
+- Platform-specific private data and log paths
+- Loopback-only Ollama configuration and readiness checks
+- Echo Core professional-fact domain and visibility policy
+- SQLite authoritative profile repository
+- Deterministic fallback retrieval and text processing
+- Optional local Ollama and LanceDB adapters
+- Echo Chat controlled prompt foundation
+- Echo Resume job analysis, cited draft model, claim validation, LaTeX
+  rendering, local compilation, and immutable versioning
+- Echo Web Bot public-profile export and initial guardrails
+- Focused tests for configuration, profile filtering, retrieval, claim
+  validation, LaTeX escaping, immutable versioning, and public exports
 
-## Current Status
+## Build-on-Top Strategy
 
-Phase 1 inspection is complete. Phase 2 foundations are in progress.
+The legacy Streamlit RAG application is preserved during migration. Its useful
+PDF extraction, chat streaming, and retrieval concepts will be adapted behind
+Echo Core interfaces. New functionality must not add new dependencies on
+OpenSearch, SentenceTransformers, or Streamlit.
 
-Implemented foundations:
+## Remaining Work
 
-- Python 3.11-compatible `app/` package and desktop entry point
-- private runtime paths through `platformdirs`
-- loopback-only Ollama URL validation
-- readiness checks that never install or download models
-- typed base errors
-- metadata-only logging outside the repository
-- initial privacy-focused ignores and tests
-
-The current Python 3.11 virtual environment still needs the newly declared
-desktop dependencies installed. Until migration parity is reached, the legacy
-dependencies remain declared so existing work is not broken.
-
-## Remaining Phases
-
-1. Add SQLite schema, migrations, repositories, and profile-management UI.
-2. Add resume PDF import into an unverified draft profile.
-3. Add Ollama embeddings and rebuildable LanceDB retrieval.
-4. Add job-posting input and validated structured analysis.
-5. Add evidence review and evidence-constrained generation.
-6. Add deterministic claim validation.
-7. Add controlled LaTeX rendering, compilation, and PDF preview.
-8. Add immutable application versioning.
-9. Complete focused tests, privacy hardening, documentation, and PyInstaller
-   packaging for Windows and macOS.
-
-## Legacy Replacement Map
-
-- `Welcome.py` and `pages/`: replace with PySide6 UI under `app/ui/`.
-- `src/chat.py`: replace with constrained generation services and local Ollama
-  integration.
-- `src/embeddings.py`: replace with Ollama embeddings.
-- `src/opensearch.py` and `src/ingestion.py`: replace with SQLite repositories
-  and LanceDB.
-- `src/ocr.py` and text cleaning concepts: adapt into local PDF import services.
+1. Add structured work-history, education, project, skill, achievement, and
+   preference tables on top of personal facts.
+2. Add PDF import into an unverified Echo Profile draft.
+3. Add local Ollama structured-output parsing with Pydantic.
+4. Connect LanceDB retrieval to Echo Chat and Echo Resume services.
+5. Build profile editing, evidence review, job input, application history, and
+   PDF preview screens in PySide6.
+6. Add background workers for Ollama, indexing, generation, and LaTeX.
+7. Expand claim validation for employers, titles, dates, and skill assertions.
+8. Add approved public-profile snapshot signing/versioning.
+9. Package independently for macOS and Windows using PyInstaller.
+10. Retire legacy Streamlit, OpenSearch, and SentenceTransformers after feature
+    parity.

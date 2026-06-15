@@ -100,13 +100,21 @@ class AppConfig:
         return cls(
             paths=AppPaths.default(),
             ollama_url=validate_loopback_url(
-                os.environ.get("RESUME_TAILOR_OLLAMA_URL", DEFAULT_OLLAMA_URL)
+                os.environ.get(
+                    "ECHO_OLLAMA_URL",
+                    os.environ.get("RESUME_TAILOR_OLLAMA_URL", DEFAULT_OLLAMA_URL),
+                )
             ),
             generation_model=os.environ.get(
-                "RESUME_TAILOR_GENERATION_MODEL", "llama3.2:3b"
+                "ECHO_GENERATION_MODEL",
+                os.environ.get("RESUME_TAILOR_GENERATION_MODEL", "llama3.2:3b"),
             ),
             embedding_model=os.environ.get(
-                "RESUME_TAILOR_EMBEDDING_MODEL", "nomic-embed-text"
+                "ECHO_EMBEDDING_MODEL",
+                os.environ.get("RESUME_TAILOR_EMBEDDING_MODEL", "nomic-embed-text"),
             ),
-            latex_command=os.environ.get("RESUME_TAILOR_LATEX_COMMAND", "pdflatex"),
+            latex_command=os.environ.get(
+                "ECHO_LATEX_COMMAND",
+                os.environ.get("RESUME_TAILOR_LATEX_COMMAND", "pdflatex"),
+            ),
         )
