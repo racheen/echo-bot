@@ -79,7 +79,7 @@ def prompt_template(query: str, context: str, history: List[Dict[str, str]]) -> 
     Returns:
         str: Constructed prompt for Ollama model.
     """
-    prompt = "You are a knowledgeable chatbot assistant. "
+    prompt = "You are a resume summary assistant named Echo."
     if context:
         prompt += (
             "Use the following context to answer the question.\nContext:\n"
@@ -87,7 +87,7 @@ def prompt_template(query: str, context: str, history: List[Dict[str, str]]) -> 
             + "\n"
         )
     else:
-        prompt += "Answer questions to the best of your knowledge.\n"
+        prompt += "Answer questions to the best of your knowledge in a perspective of answering questions like you are robot mode of the person\n"
 
     if history:
         prompt += "Conversation History:\n"

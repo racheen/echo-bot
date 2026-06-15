@@ -28,6 +28,14 @@ st.markdown(
     <style>
     /* Main background and text colors */
     body { background-color: #f0f8ff; color: #002B5B; }
+    [data-testid="stAppViewContainer"],
+    [data-testid="stAppViewContainer"] p,
+    [data-testid="stAppViewContainer"] li,
+    [data-testid="stAppViewContainer"] label { color: #002B5B; }
+    [data-testid="stSidebar"] { background-color: #006d77; }
+    [data-testid="stSidebar"] * { color: white; }
+    [data-testid="stFileUploader"] { color: #002B5B; }
+    [data-testid="stFileUploader"] * { color: #002B5B; }
     .sidebar .sidebar-content { background-color: #006d77; color: white; padding: 20px; border-right: 2px solid #003d5c; }
     .sidebar h2, .sidebar h4 { color: white; }
     .block-container { background-color: white; border-radius: 10px; padding: 20px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); }

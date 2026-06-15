@@ -26,6 +26,18 @@ def apply_custom_css() -> None:
             background-color: #f0f8ff;  /* Light cyan background */
             color: #002B5B;  /* Dark blue text for readability */
         }
+        [data-testid="stAppViewContainer"],
+        [data-testid="stAppViewContainer"] p,
+        [data-testid="stAppViewContainer"] li,
+        [data-testid="stAppViewContainer"] label {
+            color: #002B5B;
+        }
+        [data-testid="stSidebar"] {
+            background-color: #006d77;
+        }
+        [data-testid="stSidebar"] * {
+            color: white;
+        }
         .sidebar .sidebar-content {
             background-color: #006d77;  /* Dark cyan sidebar background */
             color: white;

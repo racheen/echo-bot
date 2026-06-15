@@ -25,6 +25,12 @@ st.markdown(
     <style>
     /* Main background and text colors */
     body { background-color: #f0f8ff; color: #002B5B; }
+    [data-testid="stAppViewContainer"],
+    [data-testid="stAppViewContainer"] p,
+    [data-testid="stAppViewContainer"] li,
+    [data-testid="stAppViewContainer"] label { color: #002B5B; }
+    [data-testid="stSidebar"] { background-color: #006d77; }
+    [data-testid="stSidebar"] * { color: white; }
     .sidebar .sidebar-content { background-color: #006d77; color: white; padding: 20px; border-right: 2px solid #003d5c; }
     .sidebar h2, .sidebar h4 { color: white; }
     .block-container { background-color: white; border-radius: 10px; padding: 20px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); }
@@ -32,8 +38,9 @@ st.markdown(
     .stButton button { background-color: #118ab2; color: white; border-radius: 5px; padding: 10px 20px; font-size: 16px; }
     .stButton button:hover { background-color: #07a6c2; color: white; }
     h1, h2, h3, h4 { color: #006d77; }
-    .stChatMessage { background-color: #e0f7fa; color: #006d77; padding: 10px; border-radius: 5px; margin-bottom: 10px; }
-    .stChatMessage.user { background-color: #118ab2; color: white; }
+    [data-testid="stChatMessage"] { background-color: #e0f7fa; color: #002B5B; padding: 10px; border-radius: 5px; margin-bottom: 10px; }
+    [data-testid="stChatMessage"] * { color: #002B5B; }
+    [data-testid="stChatInput"] textarea { color: #002B5B; background-color: white; }
     </style>
     """,
     unsafe_allow_html=True,
