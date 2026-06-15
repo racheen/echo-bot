@@ -1,4 +1,40 @@
-# 📝 Build Your Local RAG System with LLMs
+# Echo Bot
+
+Echo Bot is a private, cross-platform, local-first career assistant. It is the
+desktop shell that brings together:
+
+- **Echo Profile**: your private professional knowledge base and authoritative
+  source of verified career facts.
+- **Echo Resume**: an evidence-constrained tailored LaTeX resume generator.
+- **Echo Chat**: an AI version of you for private resume and career questions.
+
+The application uses Python 3.11, PySide6, SQLite, LanceDB, locally installed
+Ollama models, and local LaTeX tooling.
+
+The legacy Streamlit/OpenSearch document-chat application remains temporarily
+while the desktop replacement is implemented. Do not use it as the architecture
+for new features.
+
+See:
+
+- [`docs/PROJECT.md`](docs/PROJECT.md) for the product and privacy contract.
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for module boundaries.
+- [`docs/MIGRATION.md`](docs/MIGRATION.md) for migration status.
+- [`AGENTS.md`](AGENTS.md) for repository implementation guidance.
+
+After installing the declared dependencies locally:
+
+```bash
+python -m scripts.check_offline_readiness
+python -m app.main
+```
+
+The readiness command only inspects local dependencies, local executables, and
+the explicitly configured loopback Ollama service. It never downloads models.
+
+## Legacy Application
+
+# Build Your Local RAG System with LLMs
 
 Welcome to the **Local LLM-based Retrieval-Augmented Generation (RAG) System**! This repository provides the full code to build a private, offline RAG system for managing and querying personal documents locally using a combination of OpenSearch, Sentence Transformers, and Large Language Models (LLMs). Perfect for anyone seeking a privacy-friendly solution to manage documents without relying on cloud services.
 
