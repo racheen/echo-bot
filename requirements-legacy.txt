@@ -1,0 +1,16 @@
+# Optional legacy prototype dependencies.
+#
+# These are only needed if you want to run the old Streamlit/OpenSearch RAG
+# prototype during migration. They are intentionally separate from
+# requirements.txt because the current Echo app does not depend on Torch,
+# SentenceTransformers, Streamlit, or OpenSearch.
+#
+# Use Python 3.11 for these pins.
+streamlit==1.39.0
+sentence-transformers==3.1.1
+pytesseract==0.3.13
+pillow==10.4.0
+opensearch-py==2.7.1
+torch==2.4.1
+numpy==2.1.2
+requests==2.32.3

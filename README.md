@@ -83,9 +83,17 @@ Echo requires Python 3.11.
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
+python --version
 pip install -r requirements.txt
 python -m scripts.check_offline_readiness
 ```
+
+The default `requirements.txt` installs the new local-first Echo application
+stack only. The legacy Streamlit/OpenSearch prototype dependencies live in
+`requirements-legacy.txt` and are not required for Echo setup.
+
+If `python --version` shows Python 3.13 or another version, recreate the virtual
+environment with Python 3.11 before installing dependencies.
 
 Install the configured Ollama generation and embedding models manually. Echo
 will report missing models but will not download them.

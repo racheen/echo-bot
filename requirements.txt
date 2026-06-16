@@ -5,13 +5,3 @@ ollama>=0.3,<1
 platformdirs>=4.3,<5
 pydantic>=2.9,<3
 pypdf2>=3.0,<4
-
-# Temporary legacy dependencies. Remove after the PySide6 migration reaches parity.
-streamlit==1.39.0
-sentence-transformers==3.1.1
-pytesseract==0.3.13
-pillow==10.4.0
-opensearch-py==2.7.1
-torch==2.4.1
-numpy==2.1.2
-requests==2.32.3

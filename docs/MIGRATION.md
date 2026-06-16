@@ -19,6 +19,8 @@
 - Echo Web Bot public-profile export, guardrails, and local server
 - Focused tests for expected structure, retrieval, claim validation, LaTeX
   escaping, immutable versioning, and public exports
+- Default requirements now install Echo only; legacy prototype dependencies are
+  isolated in `requirements-legacy.txt`.
 
 ## Remaining Work
 
