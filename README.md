@@ -104,6 +104,18 @@ Run the desktop shell:
 python -m apps.echo_desktop.main
 ```
 
+The first desktop MVP includes:
+
+- Dashboard counts for verified, resume-approved, and public facts.
+- Echo Profile manual fact entry and `.tex` or text resume import.
+- Fit scoring from a pasted job post against resume-approved facts.
+- Evidence review with selectable facts.
+- Resume preview generated as controlled LaTeX from selected evidence.
+
+Imported resume lines are saved as unverified private draft facts. Review and
+re-add or update facts as verified before using them for scoring and resume
+generation.
+
 Run the local public-profile web server:
 
 ```bash

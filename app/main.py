@@ -20,7 +20,7 @@ def main() -> int:
     configure_logging(config.paths.logs)
 
     try:
-        from PySide6.QtWidgets import QApplication, QLabel, QMainWindow
+        from PySide6.QtWidgets import QApplication
     except ImportError:
         print(
             "PySide6 is not installed. Install the declared local dependencies first.",
@@ -28,17 +28,14 @@ def main() -> int:
         )
         return 1
 
+    from packages.echo_core.repositories.sqlite import SQLiteProfileRepository
+    from packages.echo_resume.desktop_app.main_window import EchoMainWindow
+
+    repository = SQLiteProfileRepository(config.paths.database)
+    repository.migrate()
+
     application = QApplication(sys.argv)
-    window = QMainWindow()
-    window.setWindowTitle("Echo Bot")
-    window.setMinimumSize(960, 640)
-    window.setCentralWidget(
-        QLabel(
-            "Echo Bot\n"
-            "Your private, local career assistant\n\n"
-            "Echo Profile, Echo Resume, and Echo Chat are being implemented."
-        )
-    )
+    window = EchoMainWindow(repository, config.paths.root)
     window.show()
     return application.exec()
 

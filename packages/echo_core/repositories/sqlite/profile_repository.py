@@ -59,6 +59,16 @@ class SQLiteProfileRepository:
                 ),
             )
 
+    def get(self, fact_id: str) -> PersonalFact | None:
+        with self._connect() as connection:
+            row = connection.execute(
+                "SELECT * FROM personal_facts WHERE id = ?", (fact_id,)
+            ).fetchone()
+        return self._from_row(row) if row else None
+
+    def list_all(self) -> list[PersonalFact]:
+        return self._list("SELECT * FROM personal_facts ORDER BY created_at, id")
+
     def list_verified(self) -> list[PersonalFact]:
         return self._list(
             "SELECT * FROM personal_facts WHERE verified = 1 ORDER BY created_at, id"
@@ -108,4 +118,3 @@ class SQLiteProfileRepository:
             created_at=datetime.fromisoformat(row["created_at"]),
             updated_at=datetime.fromisoformat(row["updated_at"]),
         )
-
