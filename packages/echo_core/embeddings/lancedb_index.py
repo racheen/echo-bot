@@ -21,11 +21,9 @@ class LanceDBFactIndex:
             import lancedb
         except ImportError as exc:
             raise RuntimeError("Install lancedb to build the vector index.") from exc
-
         eligible = [fact for fact in facts if fact.verified]
         if not eligible:
             return
-
         vectors = self.embed([fact.text for fact in eligible])
         rows = [
             {"id": fact.id, "text": fact.text, "vector": vector}
@@ -42,11 +40,8 @@ class LanceDBFactIndex:
             import lancedb
         except ImportError as exc:
             raise RuntimeError("Install lancedb to search the vector index.") from exc
-
-        database = lancedb.connect(self.path)
-        table = database.open_table("personal_facts")
-        vector = self.embed([query])[0]
-        rows = table.search(vector).limit(limit).to_list()
+        table = lancedb.connect(self.path).open_table("personal_facts")
+        rows = table.search(self.embed([query])[0]).limit(limit).to_list()
         return [
             RetrievedFact(fact=facts_by_id[row["id"]], score=float(1 - row["_distance"]))
             for row in rows

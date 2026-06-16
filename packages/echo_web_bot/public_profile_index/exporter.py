@@ -18,7 +18,10 @@ def export_public_profile(repository: PublicFactRepository, destination: Path) -
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(
         json.dumps(
-            [{"id": fact.id, "type": fact.fact_type.value, "text": fact.text} for fact in facts],
+            [
+                {"id": fact.id, "type": fact.fact_type.value, "text": fact.text}
+                for fact in facts
+            ],
             indent=2,
         ),
         encoding="utf-8",

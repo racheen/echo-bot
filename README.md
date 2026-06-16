@@ -12,8 +12,8 @@ Echo contains three product surfaces:
 - Echo Web Bot exposes an explicitly approved public-profile snapshot and can
   never access the private profile database.
 
-The legacy Streamlit and OpenSearch application remains available while its
-useful behavior is migrated into Echo Core. New features should use the package
+The legacy Streamlit and OpenSearch application is isolated under
+`legacy/streamlit_rag` during migration. New features should use the package
 architecture rather than extending `src/` or `pages/`.
 
 ## Privacy Contract
@@ -32,24 +32,48 @@ architecture rather than extending `src/` or `pages/`.
 ## Repository Structure
 
 ```text
-app/
-  Desktop composition root, configuration, readiness checks, and logging.
-
 packages/
   echo_core/
-    Shared profile domain, SQLite repository, RAG, prompts, Ollama adapter,
-    LanceDB adapter, and evaluation helpers.
+    domain/
+      profile.py
+      evidence.py
+      job.py
+      conversation.py
+    rag/
+      retrieval.py
+      chunking.py
+      citations.py
+    embeddings/
+      ollama_embeddings.py
+      lancedb_index.py
+    prompts/
+    profile_schema/
+    repositories/
+      sqlite/
+    integrations/
+      ollama.py
+    evaluation/
   echo_resume/
-    Job analysis, claim validation, LaTeX rendering, PDF compilation,
-    immutable versions, and desktop UI boundary.
+    desktop_app/
+    latex_generator/
+    job_analyzer/
+    evidence_review/
+    resume_generator/
+    claim_validator/
+    pdf_compiler/
   echo_web_bot/
-    Public-profile export, public chat boundary, and guardrails.
-
-src/ and pages/
-  Legacy Streamlit/OpenSearch prototype retained during migration.
-
+    public_chat_widget/
+    public_profile_index/
+    guardrails/
+    local_server/
+apps/
+  echo_desktop/
+  echo_web/
+legacy/
+  streamlit_rag/
+scripts/
 tests/
-  Focused privacy, retrieval, validation, rendering, and versioning tests.
+docs/
 ```
 
 ## Setup
@@ -69,7 +93,13 @@ will report missing models but will not download them.
 Run the desktop shell:
 
 ```bash
-python -m app.main
+python -m apps.echo_desktop.main
+```
+
+Run the local public-profile web server:
+
+```bash
+python -m apps.echo_web.main path/to/public_profile.json
 ```
 
 Run the test suite:

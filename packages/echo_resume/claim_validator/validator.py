@@ -24,7 +24,6 @@ def validate_draft(draft: ResumeDraft, facts: list[PersonalFact]) -> None:
         if not claim.fact_ids:
             errors.append(f"Claim has no citations: {claim.text}")
             continue
-
         cited_facts = [facts_by_id.get(fact_id) for fact_id in claim.fact_ids]
         if any(fact is None for fact in cited_facts):
             errors.append(f"Claim cites unknown facts: {claim.text}")
@@ -32,7 +31,6 @@ def validate_draft(draft: ResumeDraft, facts: list[PersonalFact]) -> None:
         if any(not fact.resume_eligible for fact in cited_facts if fact is not None):
             errors.append(f"Claim cites facts not approved for resumes: {claim.text}")
             continue
-
         supported_numbers = {
             number
             for fact in cited_facts
