@@ -39,6 +39,10 @@ class PersonalFact:
     def __post_init__(self) -> None:
         if not self.text.strip():
             raise ValueError("Personal facts must contain text.")
+        if not isinstance(self.fact_type, FactType):
+            object.__setattr__(self, "fact_type", FactType(self.fact_type))
+        if not isinstance(self.visibility, Visibility):
+            object.__setattr__(self, "visibility", Visibility(self.visibility))
 
     @property
     def resume_eligible(self) -> bool:
@@ -50,4 +54,3 @@ class PersonalFact:
     @property
     def public_eligible(self) -> bool:
         return self.verified and self.visibility is Visibility.PUBLIC_ALLOWED
-
