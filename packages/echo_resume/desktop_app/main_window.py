@@ -6,6 +6,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from packages.echo_core.domain.profile import FactType, PersonalFact, Visibility
+from packages.echo_core.profile_schema import import_profile_json
 from packages.echo_core.repositories.sqlite import SQLiteProfileRepository
 from packages.echo_resume.domain import JobAnalysis
 from packages.echo_resume.fit_scoring import FitScore, score_job_fit
@@ -30,6 +31,7 @@ class EchoMainWindow:
             QListWidgetItem,
             QMainWindow,
             QMessageBox,
+            QAbstractItemView,
             QPushButton,
             QStackedWidget,
             QTextEdit,
@@ -186,8 +188,17 @@ class EchoMainWindow:
                 layout.addLayout(form)
 
                 self.profile_facts = QListWidget()
+                self.profile_facts.setSelectionMode(QAbstractItemView.ExtendedSelection)
                 self.profile_facts.itemSelectionChanged.connect(self.load_selected_fact)
                 layout.addWidget(self.profile_facts)
+                bulk = QHBoxLayout()
+                verify_selected = QPushButton("Verify Selected for Resume")
+                verify_selected.clicked.connect(self.verify_selected_for_resume)
+                private_selected = QPushButton("Mark Selected Private")
+                private_selected.clicked.connect(self.mark_selected_private)
+                bulk.addWidget(verify_selected)
+                bulk.addWidget(private_selected)
+                layout.addLayout(bulk)
                 return page
 
             def _resume(self) -> QWidget:
@@ -252,7 +263,7 @@ class EchoMainWindow:
 
             def load_selected_fact(self) -> None:
                 selected = self.profile_facts.selectedItems()
-                if not selected:
+                if not selected or len(selected) > 1:
                     return
                 fact = selected[0].data(Qt.UserRole)
                 if not isinstance(fact, PersonalFact):
@@ -266,7 +277,9 @@ class EchoMainWindow:
 
             def clear_fact_form(self) -> None:
                 self.selected_fact = None
+                self.profile_facts.blockSignals(True)
                 self.profile_facts.clearSelection()
+                self.profile_facts.blockSignals(False)
                 self.fact_text.clear()
                 self._set_combo_value(self.fact_type, FactType.WORK)
                 self._set_combo_value(self.visibility, Visibility.PRIVATE)
@@ -296,21 +309,76 @@ class EchoMainWindow:
                 self.refresh_profile()
 
             def delete_selected_fact(self) -> None:
-                if self.selected_fact is None:
+                selected_facts = self._selected_facts()
+                if not selected_facts:
                     QMessageBox.information(self, "No selection", "Select a fact to delete.")
                     return
-                self.repository.delete(self.selected_fact.id)
+                for fact in selected_facts:
+                    self.repository.delete(fact.id)
+                self.clear_fact_form()
+                self.refresh_profile()
+
+            def _selected_facts(self) -> list[PersonalFact]:
+                facts: list[PersonalFact] = []
+                for item in self.profile_facts.selectedItems():
+                    fact = item.data(Qt.UserRole)
+                    if isinstance(fact, PersonalFact):
+                        facts.append(fact)
+                return facts
+
+            def verify_selected_for_resume(self) -> None:
+                selected = self._selected_facts()
+                if not selected:
+                    QMessageBox.information(self, "No selection", "Select one or more draft facts.")
+                    return
+                for fact in selected:
+                    self.repository.save(
+                        PersonalFact(
+                            id=fact.id,
+                            text=fact.text,
+                            fact_type=fact.fact_type,
+                            verified=True,
+                            visibility=Visibility.RESUME_ALLOWED,
+                            source=fact.source,
+                            created_at=fact.created_at,
+                            updated_at=datetime.now(UTC),
+                        )
+                    )
+                self.clear_fact_form()
+                self.refresh_profile()
+
+            def mark_selected_private(self) -> None:
+                selected = self._selected_facts()
+                if not selected:
+                    QMessageBox.information(self, "No selection", "Select one or more facts.")
+                    return
+                for fact in selected:
+                    self.repository.save(
+                        PersonalFact(
+                            id=fact.id,
+                            text=fact.text,
+                            fact_type=fact.fact_type,
+                            verified=False,
+                            visibility=Visibility.PRIVATE,
+                            source=fact.source,
+                            created_at=fact.created_at,
+                            updated_at=datetime.now(UTC),
+                        )
+                    )
                 self.clear_fact_form()
                 self.refresh_profile()
 
             def import_resume(self) -> None:
                 path, _ = QFileDialog.getOpenFileName(
                     self,
-                    "Import resume text, LaTeX, or PDF",
+                    "Import resume, profile JSON, text, LaTeX, or PDF",
                     "",
-                    "Resume files (*.pdf *.tex *.txt *.md);;All files (*)",
+                    "Profile and resume files (*.json *.pdf *.tex *.txt *.md);;All files (*)",
                 )
                 if not path:
+                    return
+                if Path(path).suffix.lower() == ".json":
+                    self.import_profile_json(Path(path))
                     return
                 try:
                     content = self._read_resume_file(Path(path))
@@ -348,6 +416,21 @@ class EchoMainWindow:
                         page.extract_text() or "" for page in reader.pages
                     )
                 return path.read_text(encoding="utf-8", errors="ignore")
+
+            def import_profile_json(self, path: Path) -> None:
+                try:
+                    facts = import_profile_json(path)
+                except Exception as exc:
+                    QMessageBox.warning(self, "JSON import failed", str(exc))
+                    return
+                for fact in facts:
+                    self.repository.save(fact)
+                self.refresh_profile()
+                QMessageBox.information(
+                    self,
+                    "Profile JSON imported",
+                    f"Imported {len(facts)} typed draft facts. Select one or more and verify them when ready.",
+                )
 
             def analyze_job(self) -> None:
                 text = self.job_posting.toPlainText().strip()

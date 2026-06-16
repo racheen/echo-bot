@@ -109,6 +109,9 @@ The first desktop MVP includes:
 - Dashboard counts for verified, resume-approved, and public facts.
 - Echo Profile manual fact entry and `.pdf`, `.tex`, or text resume import.
 - Fact selection, editing, verification, visibility changes, and deletion.
+- Multi-select bulk verification for imported draft facts.
+- Structured `.json` profile import for existing education, work, projects,
+  skills, achievements, and preferences data.
 - Fit scoring from a pasted job post against resume-approved facts.
 - Evidence review with selectable facts.
 - Resume preview generated as controlled LaTeX from selected evidence.
@@ -116,6 +119,28 @@ The first desktop MVP includes:
 Imported resume lines are saved as unverified private draft facts. To verify an
 imported fact, select it in Echo Profile, edit the text if needed, choose the
 fact type and visibility, check `Verified`, and click `Save Changes`.
+
+For bulk verification, select multiple imported draft facts in Echo Profile and
+click `Verify Selected for Resume`.
+
+Structured JSON imports can use section keys such as:
+
+```json
+{
+  "education": [{"school": "Example University", "degree": "BSc"}],
+  "work_history": [
+    {
+      "title": "Backend Engineer",
+      "company": "Acme",
+      "bullets": ["Built FastAPI services"]
+    }
+  ],
+  "projects": ["Echo local career assistant"],
+  "skills": ["Python", "FastAPI"],
+  "achievements": ["Improved API latency by 40%"],
+  "preferences": ["Prefers backend and AI platform roles"]
+}
+```
 
 Run the local public-profile web server:
 
