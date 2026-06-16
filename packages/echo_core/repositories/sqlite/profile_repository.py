@@ -66,6 +66,10 @@ class SQLiteProfileRepository:
             ).fetchone()
         return self._from_row(row) if row else None
 
+    def delete(self, fact_id: str) -> None:
+        with self._connect() as connection:
+            connection.execute("DELETE FROM personal_facts WHERE id = ?", (fact_id,))
+
     def list_all(self) -> list[PersonalFact]:
         return self._list("SELECT * FROM personal_facts ORDER BY created_at, id")
 

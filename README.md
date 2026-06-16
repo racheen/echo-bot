@@ -107,14 +107,15 @@ python -m apps.echo_desktop.main
 The first desktop MVP includes:
 
 - Dashboard counts for verified, resume-approved, and public facts.
-- Echo Profile manual fact entry and `.tex` or text resume import.
+- Echo Profile manual fact entry and `.pdf`, `.tex`, or text resume import.
+- Fact selection, editing, verification, visibility changes, and deletion.
 - Fit scoring from a pasted job post against resume-approved facts.
 - Evidence review with selectable facts.
 - Resume preview generated as controlled LaTeX from selected evidence.
 
-Imported resume lines are saved as unverified private draft facts. Review and
-re-add or update facts as verified before using them for scoring and resume
-generation.
+Imported resume lines are saved as unverified private draft facts. To verify an
+imported fact, select it in Echo Profile, edit the text if needed, choose the
+fact type and visibility, check `Verified`, and click `Save Changes`.
 
 Run the local public-profile web server:
 

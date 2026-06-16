@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
 from pathlib import Path
 
 from packages.echo_core.domain.profile import FactType, PersonalFact, Visibility
@@ -42,6 +43,7 @@ class EchoMainWindow:
                 self.repository = repository
                 self.data_root = data_root
                 self.current_fit: FitScore | None = None
+                self.selected_fact: PersonalFact | None = None
                 self.setWindowTitle("Echo")
                 self.setMinimumSize(1180, 760)
                 self._build_ui()
@@ -166,18 +168,25 @@ class EchoMainWindow:
                 self.fact_text.setPlaceholderText("Add one verified career fact, project bullet, skill, achievement, or preference.")
                 self.verified = QCheckBox("Verified")
                 self.verified.setChecked(True)
-                save = QPushButton("Add Fact")
-                save.clicked.connect(self.add_fact)
+                self.save_fact_button = QPushButton("Add Fact")
+                self.save_fact_button.clicked.connect(self.save_fact)
+                new_button = QPushButton("New")
+                new_button.clicked.connect(self.clear_fact_form)
+                delete_button = QPushButton("Delete Selected")
+                delete_button.clicked.connect(self.delete_selected_fact)
                 form.addWidget(QLabel("Type"), 0, 0)
                 form.addWidget(self.fact_type, 0, 1)
                 form.addWidget(QLabel("Visibility"), 0, 2)
                 form.addWidget(self.visibility, 0, 3)
                 form.addWidget(self.verified, 0, 4)
                 form.addWidget(self.fact_text, 1, 0, 1, 5)
-                form.addWidget(save, 2, 4)
+                form.addWidget(new_button, 2, 2)
+                form.addWidget(delete_button, 2, 3)
+                form.addWidget(self.save_fact_button, 2, 4)
                 layout.addLayout(form)
 
                 self.profile_facts = QListWidget()
+                self.profile_facts.itemSelectionChanged.connect(self.load_selected_fact)
                 layout.addWidget(self.profile_facts)
                 return page
 
@@ -224,43 +233,93 @@ class EchoMainWindow:
                 self.public_count.setText(str(len(public_facts)))
                 self.profile_facts.clear()
                 for fact in self.repository.list_all():
-                    self.profile_facts.addItem(
-                        f"[{fact.fact_type.value}] {fact.text} ({fact.visibility.value})"
+                    status = "verified" if fact.verified else "draft"
+                    item = QListWidgetItem(
+                        f"[{status}] [{fact.fact_type.value}] {fact.text} ({fact.visibility.value})"
                     )
+                    item.setData(Qt.UserRole, fact)
+                    self.profile_facts.addItem(item)
                 self.dashboard_recent.setPlainText(
                     "\n".join(f"- {fact.text}" for fact in facts[-8:])
                     or "Add verified facts in Echo Profile to get started."
                 )
 
-            def add_fact(self) -> None:
+            def _set_combo_value(self, combo: QComboBox, value: object) -> None:
+                for index in range(combo.count()):
+                    if combo.itemData(index) == value:
+                        combo.setCurrentIndex(index)
+                        return
+
+            def load_selected_fact(self) -> None:
+                selected = self.profile_facts.selectedItems()
+                if not selected:
+                    return
+                fact = selected[0].data(Qt.UserRole)
+                if not isinstance(fact, PersonalFact):
+                    return
+                self.selected_fact = fact
+                self.fact_text.setPlainText(fact.text)
+                self._set_combo_value(self.fact_type, fact.fact_type)
+                self._set_combo_value(self.visibility, fact.visibility)
+                self.verified.setChecked(fact.verified)
+                self.save_fact_button.setText("Save Changes")
+
+            def clear_fact_form(self) -> None:
+                self.selected_fact = None
+                self.profile_facts.clearSelection()
+                self.fact_text.clear()
+                self._set_combo_value(self.fact_type, FactType.WORK)
+                self._set_combo_value(self.visibility, Visibility.PRIVATE)
+                self.verified.setChecked(True)
+                self.save_fact_button.setText("Add Fact")
+
+            def save_fact(self) -> None:
                 text = self.fact_text.toPlainText().strip()
                 if not text:
                     QMessageBox.warning(self, "Missing fact", "Add a profile fact first.")
                     return
-                fact = PersonalFact(
-                    text=text,
-                    fact_type=self.fact_type.currentData(),
-                    verified=self.verified.isChecked(),
-                    visibility=self.visibility.currentData(),
-                    source="manual",
-                )
+                existing = self.selected_fact
+                fact_data = {
+                    "text": text,
+                    "fact_type": self.fact_type.currentData(),
+                    "verified": self.verified.isChecked(),
+                    "visibility": self.visibility.currentData(),
+                    "source": existing.source if existing else "manual",
+                    "created_at": existing.created_at if existing else datetime.now(UTC),
+                    "updated_at": datetime.now(UTC),
+                }
+                if existing:
+                    fact_data["id"] = existing.id
+                fact = PersonalFact(**fact_data)
                 self.repository.save(fact)
-                self.fact_text.clear()
+                self.clear_fact_form()
+                self.refresh_profile()
+
+            def delete_selected_fact(self) -> None:
+                if self.selected_fact is None:
+                    QMessageBox.information(self, "No selection", "Select a fact to delete.")
+                    return
+                self.repository.delete(self.selected_fact.id)
+                self.clear_fact_form()
                 self.refresh_profile()
 
             def import_resume(self) -> None:
                 path, _ = QFileDialog.getOpenFileName(
                     self,
-                    "Import resume text or LaTeX",
+                    "Import resume text, LaTeX, or PDF",
                     "",
-                    "Resume files (*.tex *.txt *.md);;All files (*)",
+                    "Resume files (*.pdf *.tex *.txt *.md);;All files (*)",
                 )
                 if not path:
                     return
-                content = Path(path).read_text(encoding="utf-8", errors="ignore")
+                try:
+                    content = self._read_resume_file(Path(path))
+                except Exception as exc:
+                    QMessageBox.warning(self, "Import failed", str(exc))
+                    return
                 imported = 0
                 for line in content.splitlines():
-                    cleaned = line.strip().strip("-*• ")
+                    cleaned = line.strip().strip("-* ")
                     if len(cleaned) < 20 or cleaned.startswith("\\"):
                         continue
                     self.repository.save(
@@ -279,6 +338,16 @@ class EchoMainWindow:
                     "Resume imported",
                     f"Imported {imported} draft facts. Review and verify them before use.",
                 )
+
+            def _read_resume_file(self, path: Path) -> str:
+                if path.suffix.lower() == ".pdf":
+                    from PyPDF2 import PdfReader
+
+                    reader = PdfReader(str(path))
+                    return "\n".join(
+                        page.extract_text() or "" for page in reader.pages
+                    )
+                return path.read_text(encoding="utf-8", errors="ignore")
 
             def analyze_job(self) -> None:
                 text = self.job_posting.toPlainText().strip()
